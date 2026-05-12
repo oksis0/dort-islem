@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>İşlem Sayfası</h2>
+    <input type="number" id="s1" placeholder="Sayı 1">
+    <input type="number" id="s2" placeholder="Sayı 2">
+    <select id="op">
+        <option value="+">+</option><option value="-">-</option>
+        <option value="*">*</option><option value="/">/</option>
+    </select>
+    <button onclick="gonder()">Hesapla ve Gönder</button>
+
+    <!-- Firebase Kütüphaneleri -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        // Firebase ayarlarını buraya yapıştır
+        const firebaseConfig = {
+            apiKey: "AIzaSyDsSTBA5D5-9WIlOjooJlpeYPsZla1sP7o",
+            databaseURL: "https://dort-islem-c78ec-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "dort-islem-c78ec",
+            // ... diğerleri
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        function gonder() {
+            const s1 = Number(document.getElementById('s1').value);
+            const s2 = Number(document.getElementById('s2').value);
+            const op = document.getElementById('op').value;
+            let sonuc = 0;
+
+            if(op === '+') sonuc = s1 + s2;
+            if(op === '-') sonuc = s1 - s2;
+            if(op === '*') sonuc = s1 * s2;
+            if(op === '/') sonuc = s1 / s2;
+
+            // Veritabanına 'son-islem' adıyla kaydet
+            db.ref('islem_merkezi').set({
+                hesaplanan: sonuc,
+                zaman: Date.now()
+            });
+            alert("Sonuç gönderildi!");
+        }
+    </script>
+</body>
+</html>

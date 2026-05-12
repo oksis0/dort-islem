@@ -37,7 +37,7 @@
             if(op === '/') sonuc = s1 / s2;
 
             // Veritabanına 'son-islem' adıyla kaydet
-            db.ref('islem_merkezi').set({
+            db.ref('islem_sonucu').set({
                 hesaplanan: sonuc,
                 zaman: Date.now()
             });
